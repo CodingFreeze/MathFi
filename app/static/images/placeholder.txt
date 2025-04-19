@@ -1,0 +1,10 @@
+This is a placeholder file.
+
+A gif or image showing the application demo would normally be placed here.
+The README references 'mathfi_demo.gif' which would show a recording of the application in use.
+
+To create this file:
+1. Run the application using 'python run.py'
+2. Upload a handwritten equation image
+3. Capture the process as a short gif
+4. Save it as 'mathfi_demo.gif' in this directory 
