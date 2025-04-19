@@ -1,32 +1,28 @@
-# MathFi - Handwritten Math Solver
+# MathFi - Handwritten Math Symbol Recognition
 
-MathFi is an open-source application that recognizes and solves handwritten mathematical equations using computer vision and symbolic computation.
-
-![MathFi Demo](app/static/images/mathfi_demo.gif)
+MathFi is an open-source application that recognizes handwritten mathematical symbols and equations using computer vision and deep learning.
 
 ## Features (Planned)
 
-- Upload an image of a handwritten math equation or capture it using your webcam
+- Upload an image of a handwritten math equation
 - Image preprocessing to enhance recognition accuracy
-- Recognizes digits and common mathematical symbols using a CNN model
-- Automatically segments and identifies individual math symbols
-- Solves equations and expressions using SymPy
-- Displays step-by-step solutions with LaTeX formatting
-- Download solutions as PDF
+- Recognizes digits and common mathematical symbols using a custom CNN model
+- Enhanced recognition of advanced mathematical symbols (π, λ, ∂, ∑, √, ∞, ∫, ≤, ≥)
 - Visualization of detected symbols with confidence scores
+- Streamlit-based user interface for easy interaction
 
 ## Installation
 
 1. Clone this repository:
 ```bash
 git clone https://github.com/CodingFreeze/MathFi.git
-cd mathfi
+cd MathFi
 ```
 
 2. Create a virtual environment (optional but recommended):
 ```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 ```
 
 3. Install the required dependencies:
@@ -42,13 +38,11 @@ pip install -r requirements.txt
 python run.py
 ```
 
-This will launch the Streamlit web interface. You can then:
+This will launch the Streamlit web interface on port 8501. You can then:
 
 1. Upload an image of a handwritten equation
-2. Or use your webcam to capture an equation
-3. View the recognized equation
-4. See the step-by-step solution
-5. Download the solution as PDF
+2. View the recognized symbols
+3. See the symbol probabilities and confidence scores
 
 ### Command-line options
 
@@ -61,148 +55,83 @@ Available options:
 - `--port`: Specify the port (default: 8501)
 - `--no-browser`: Don't open a browser window
 
-### Train the recognition model
+### Train the recognition models
 
 Train a custom handwritten math symbol recognition model:
 
 ```bash
-python train_cnn_model.py --model-type custom_cnn --epochs 20 --batch-size 32
+python train_model.py
 ```
 
-Available model types:
-- `custom_cnn`: Standard CNN architecture (default)
-- `mobilenet`: MobileNetV2-based architecture for higher accuracy
-- `resnet`: ResNet50-based architecture for even higher accuracy
+For advanced symbol recognition:
 
-The model will be saved to `models/symbol_recognition_model` and will be automatically used by the application.
-
-## Advanced Usage
-
-### Advanced options in the UI
-
-- **Adaptive Thresholding**: Toggle between Otsu's and adaptive thresholding for different lighting conditions
-- **Minimum Symbol Area**: Adjust the minimum area to filter out small noise or detect smaller symbols
-- **Symbol Detection Visualization**: See the bounding boxes and recognized symbols overlaid on the image
-- **Merge Touching Symbols**: Automatically merge touching or closely positioned symbols
-- **Recognition Model**: Select which model type to use for recognition
-
-### Manual Equation Correction
-
-If the automatic recognition isn't perfect, you can manually correct the equation before solving:
-1. Upload an image or take a photo
-2. View the recognized equation
-3. Edit the equation in the text input box if needed
-4. The solution will be based on your corrected equation
-
-## Deployment
-
-### Deploy on Streamlit Cloud
-
-1. Push your code to GitHub
-2. Go to [Streamlit Cloud](https://streamlit.io/cloud)
-3. Connect your GitHub repository
-4. Set the main file to `app.py`
-5. Add any required secrets (if needed)
-
-### Deploy with Docker
-
-1. Build the Docker image:
 ```bash
-docker build -t mathfi .
+python train_advanced_model.py
 ```
 
-2. Run the container:
+For improved model training with enhanced datasets:
+
 ```bash
-docker run -p 8501:8501 mathfi
+python train_improved_model.py
 ```
-
-3. Access the application at http://localhost:8501
 
 ## Project Structure
 
 - `app.py`: Main Streamlit application
 - `run.py`: Script to run the application with options
-- `train_model.py`: Script to train the model
+- `train_model.py`: Basic model training script
 - `train_cnn_model.py`: Script to train the CNN-based symbol recognition model
-- `app/utils/`: Utility functions
-  - `image_processing.py`: Image preprocessing and symbol segmentation
-  - `recognition.py`: Symbol recognition
-  - `equation_solver.py`: Equation parsing and solving
-  - `data_preprocessing.py`: Dataset preparation functions
-- `app/models/`: Model architecture and training
-  - `cnn_model.py`: CNN model architecture
-- `tests/`: Test suite
+- `train_advanced_model.py`: Advanced symbol recognition training
+- `enhance_advanced_math.py`: Enhance recognition for advanced math symbols
+- `enhance_dataset.py`: Dataset enhancement utilities
+- `evaluate_per_class.py`: Evaluate model performance by symbol class
+- `models/`: Directory containing the trained models
 
 ## Technical Details
 
-### Image Processing Pipeline
-
-1. Convert to grayscale
-2. Apply Gaussian blur for noise reduction
-3. Apply adaptive thresholding for binarization
-4. Deskew the image to correct rotation
-5. Use morphological operations to clean up the image
-6. Find contours to identify individual symbols
-7. Merge touching symbols if needed
-8. Extract, resize, and normalize symbol images
-9. Clean and center each symbol for better recognition
-
 ### Symbol Recognition
 
-The symbol recognition uses a CNN with the following architecture:
-- Input: 28×28 grayscale images
-- 3 convolutional blocks with batch normalization and dropout
-- Dense layers with batch normalization and dropout for regularization
-- Output: 20 classes (digits 0-9 and mathematical symbols)
+The symbol recognition uses a custom CNN with:
+- Input: Grayscale images normalized to a standard size
+- Multiple convolutional blocks with batch normalization and dropout
+- Dense layers with regularization for stable training
+- Output: Multiple classes covering digits and mathematical symbols
 
-Alternative architectures:
-- **MobileNetV2**: Pre-trained on ImageNet, adapted for symbol recognition
-- **ResNet50**: Pre-trained on ImageNet, adapted for symbol recognition
+### Advanced Symbol Recognition
+
+The project includes specialized training for advanced mathematical symbols:
+- Greek letters (π, λ)
+- Calculus symbols (∂, ∑, ∫)
+- Mathematical operators (√, ∞, ≤, ≥)
 
 ### Data Augmentation
 
-During training, we apply various augmentations to improve model robustness:
-- Random rotation (±10°)
+During training, various augmentations improve model robustness:
+- Random rotation
 - Width/height shifts
 - Zoom
 - Shear transformations
 
-### Equation Solving
-
-The equation solving uses SymPy:
-1. Parse the recognized expression
-2. For equations (containing =):
-   - Solve for the unknown variable(s)
-   - Generate step-by-step solution
-3. For expressions:
-   - Simplify the expression
-   - Show the computation
-
 ## Datasets
 
-The model can be trained on:
-- MNIST dataset for digits
-- Synthetic math symbols generated with various fonts
-- CROHME dataset (if available)
-- Kaggle's Handwritten Mathematical Expressions dataset
+The model is trained on:
+- Basic digits and operators
+- Advanced mathematical symbols
+- Synthetic data generated for better coverage of rare symbols
+- Oversampled datasets for balanced training
 
-## Limitations
+## Limitations and Future Improvements
 
-This is a prototype with some limitations:
-
+Current limitations:
 - Works best with clean, well-separated symbols
-- Currently supports single-line equations
-- Limited to basic mathematical operators and variables
+- Limited to recognized symbol set
 - May struggle with complex handwriting styles
 
-## Future Improvements
-
-- Train a more robust symbol recognition model using the full CROHME dataset
-- Improve symbol segmentation for overlapping characters
-- Add support for more complex mathematical notation (fractions, exponents, etc.)
-- Implement multi-line equation support
-- Add mobile support with a responsive UI
-- Create a browser extension
+Future improvements:
+- Extended symbol set including more advanced notation
+- Support for continuous equation parsing
+- Enhanced segmentation for connected symbols
+- Integration with mathematical computation engines
 
 ## Contributing
 
