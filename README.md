@@ -4,7 +4,7 @@ MathFi is an open-source application that recognizes and solves handwritten math
 
 ![MathFi Demo](app/static/images/mathfi_demo.gif)
 
-## Features
+## Features (Planned)
 
 - Upload an image of a handwritten math equation or capture it using your webcam
 - Image preprocessing to enhance recognition accuracy
@@ -19,7 +19,7 @@ MathFi is an open-source application that recognizes and solves handwritten math
 
 1. Clone this repository:
 ```bash
-git clone https://github.com/yourusername/mathfi.git
+git clone https://github.com/CodingFreeze/MathFi.git
 cd mathfi
 ```
 
