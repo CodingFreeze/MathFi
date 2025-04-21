@@ -68,6 +68,36 @@ def get_pdf_solution(equation, solution, steps):
     plt.close(fig)
     return buffered
 
+def show_beta_notification():
+    """Display a beta/work-in-progress notification"""
+    beta_html = """
+    <div style="
+        position: fixed;
+        top: 0;
+        right: 0;
+        margin: 10px;
+        padding: 15px;
+        background-color: #ff9800;
+        color: white;
+        border-radius: 5px;
+        box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+        z-index: 1000;
+        font-weight: bold;
+    ">
+        🚧 BETA VERSION: This project is still in development 🚧
+    </div>
+    """
+    st.markdown(beta_html, unsafe_allow_html=True)
+    
+    # Also show a more detailed message at the top of the app
+    st.warning("""
+        ⚠️ **Work in Progress** ⚠️
+        
+        This application is currently under active development. Features may be incomplete, 
+        and results may not be accurate. We appreciate your patience and feedback as we 
+        continue to improve the application.
+    """)
+
 def main():
     st.set_page_config(
         page_title="MathFi - Handwritten Math Solver",
@@ -77,6 +107,35 @@ def main():
     
     # Load custom CSS
     load_css()
+    
+    # Beta notification
+    beta_html = """
+    <div style="
+        position: fixed;
+        top: 0;
+        right: 0;
+        margin: 10px;
+        padding: 15px;
+        background-color: #ff9800;
+        color: white;
+        border-radius: 5px;
+        box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+        z-index: 1000;
+        font-weight: bold;
+    ">
+        🚧 BETA VERSION: This project is still in development 🚧
+    </div>
+    """
+    st.markdown(beta_html, unsafe_allow_html=True)
+    
+    # Work in progress warning
+    st.warning("""
+        ⚠️ **Work in Progress** ⚠️
+        
+        This application is currently under active development. Features may be incomplete, 
+        and results may not be accurate. We appreciate your patience and feedback as we 
+        continue to improve the application.
+    """)
     
     st.markdown("<h1 class='title'>MathFi: Handwritten Math Solver</h1>", unsafe_allow_html=True)
     st.markdown("<p class='subtitle'>Upload an image of a handwritten math equation, and we'll solve it for you!</p>", unsafe_allow_html=True)

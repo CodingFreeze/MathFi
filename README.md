@@ -1,8 +1,12 @@
 # MathFi - Handwritten Math Symbol Recognition
 
+> **🚧 WORK IN PROGRESS 🚧**  
+> This project is currently under active development. Features may be incomplete or not functioning as expected. 
+> We welcome contributions and feedback as we continue to improve the application.
+
 MathFi is an open-source application that recognizes handwritten mathematical symbols and equations using computer vision and deep learning.
 
-## Features (Planned)
+## Features (In Development)
 
 - Upload an image of a handwritten math equation
 - Image preprocessing to enhance recognition accuracy
@@ -54,6 +58,26 @@ Available options:
 - `--train`: Train the model before running the app
 - `--port`: Specify the port (default: 8501)
 - `--no-browser`: Don't open a browser window
+
+## Deployment
+
+### Deploy to Vercel
+
+To deploy this application to Vercel:
+
+1. Fork this repository to your GitHub account
+2. Sign up or log in to [Vercel](https://vercel.com/)
+3. Click "New Project" and import the repository
+4. Select the "Python" framework preset
+5. Configure the following settings:
+   - Build Command: `pip install -r requirements.txt`
+   - Output Directory: `public`
+   - Install Command: Leave blank
+6. Add the following environment variables:
+   - `PYTHONPATH`: `.`
+7. Deploy!
+
+> Note: Due to Vercel's timeout limits for serverless functions, the model training functionality is disabled in deployed versions. Only pre-trained models are used.
 
 ### Train the recognition models
 
